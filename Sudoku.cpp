@@ -80,7 +80,7 @@ int Sudoku::Solve()// 解題; out==0 不輸出結果, out==1 輸出結果
     {
         if(ansNum==0)
         {
-            cout << '0';
+            cout << '0' << endl;
         }
         else
         {
@@ -95,7 +95,7 @@ int Sudoku::Solve()// 解題; out==0 不輸出結果, out==1 輸出結果
                 PrintMap();
             }
             else
-               cout << '2';
+               cout << '2' << endl;
         } 
     }
     

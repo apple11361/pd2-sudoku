@@ -1,5 +1,4 @@
 #include <iostream>
-#include <vector>
 
 class Sudoku {
 public:
