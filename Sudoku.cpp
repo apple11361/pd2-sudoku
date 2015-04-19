@@ -36,17 +36,57 @@ bool Sudoku::ReadIn()// 讀入數獨題目
 }     
 
 
-int Sudoku::Solve()// 解題; out==0 不輸出結果, out==1 輸出結果
+int Sudoku::Solve()// 解題; out==0 不輸出結果, out==1 輸出結果, 如果讀入的題目不正確, 傳回 -1;
 {
     int board[150];// 保存完成解題後的數獨內容, 否則在求第2解時, 如果無第2解, 會把已得的第1解又填回空白
     int prevPos[150];// 存放上一次填數位置的stack 
     int prevPosP = 0;//  prevPos[] stack 的指標
     int ansNum;// 答案的數目 
     int index;// map[] index
+    int flag = 0;
+    int posB;// 宮的起點
      
     ansNum = 0;
     index = getFirstZeroIndex();    
     
+    if(index==-1)
+    {
+        for(int i=0; i<12; i++)
+        {
+            if((map[i*12]!=-1 && checkR(i*12)) || (map[i*12]==-1 && checkR(i*12+3)))
+            {
+                flag++;
+                break;
+            }
+            
+            if((map[i]!=-1 && checkC(i)) || (map[i]==-1 && checkC(i+36)))
+            {
+                flag++;
+                break;
+            }
+        }
+        
+        if(!flag)
+        {    
+            for(int block=0; block<numB; block++)
+            {
+                posB = block/HVBlockNum*rcB*mapRC + block%HVBlockNum*rcB;// 計算各宮的起點
+                
+                if(map[posB]!=-1 && checkB(posB))
+                {
+                    flag++;
+                    break;
+                }
+                
+            }
+        }    
+            
+        if(!flag) cout << "讀入的題目已無空格, 是一個正確的數獨終盤"<<endl; 
+        else cout << "讀入的題目已無空格, 是一個錯誤的數獨終盤"<<endl; 
+           
+        return -1;// 讀入的題目不正確 
+    }   
+
     do
     {
         map[index]++;// 將本位置數字加 1
